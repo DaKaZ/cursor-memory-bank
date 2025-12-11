@@ -48,6 +48,16 @@ Level 2 tasks require a more structured tracking approach than Level 1, but don'
 
 ### Notes
 [Any additional information or context]
+
+### Work Items for Parallel Execution (if applicable)
+- **WI-[task-id]-01**: [Work Item Name] - Status: [Unassigned/Assigned/In Progress/Complete]
+  - Work Tree: [worktree-id or "unassigned"]
+  - Files Affected: [List of files]
+  - Dependencies: [List of WI-IDs]
+- **WI-[task-id]-02**: [Work Item Name] - Status: [Unassigned/Assigned/In Progress/Complete]
+  - Work Tree: [worktree-id or "unassigned"]
+  - Files Affected: [List of files]
+  - Dependencies: [List of WI-IDs]
 ```
 
 ## 📋 TASKS.MD ORGANIZATION
@@ -85,10 +95,18 @@ Update tasks using this process:
    - Check off subtasks as completed
    - Add brief notes about progress
    - Update any changed requirements
+   - **If work items exist**: Update work item status and work tree assignments
 
-3. **Completing a Task**:
+3. **Work Item Status Updates** (if applicable):
+   - When work item assigned: Update Status to "Assigned", set Work Tree
+   - When work item starts: Update Status to "In Progress"
+   - When work item completes: Update Status to "Complete"
+   - Track work tree assignments in tasks.md
+
+4. **Completing a Task**:
    - Update Status to "Complete"
    - Check off all subtasks
+   - Mark all work items as "Complete" (if applicable)
    - Move to Completed Enhancements
    - Add completion date
 
@@ -143,6 +161,9 @@ For subtasks:
 - Requirements listed? [YES/NO]
 - Subtasks created? [YES/NO]
 - Dependencies identified? [YES/NO]
+- Work items created (if applicable)? [YES/NO]
+- Work item status tracked? [YES/NO]
+- Work tree assignments tracked? [YES/NO]
 - Status up-to-date? [YES/NO]
 
 → If all YES: Task tracking is adequate

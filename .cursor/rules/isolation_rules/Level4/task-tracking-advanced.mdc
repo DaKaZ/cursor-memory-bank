@@ -171,6 +171,41 @@ Each Level 4 task in `tasks.md` follows this comprehensive structure:
 ### Latest Updates
 - [Date]: [Update description]
 - [Date]: [Update description]
+
+### Work Items for Parallel Execution
+
+#### Work Item: [WI-ID]: [Work Item Name]
+- **Status**: [Unassigned/Assigned/In Progress/Complete/Merged]
+- **Work Tree**: [worktree-id or "unassigned"]
+- **Agent**: [agent-id or "unassigned"]
+- **Phase**: [Foundation/Core/Extension/Integration]
+- **Dependencies**: [List of WI-IDs that must complete first]
+- **Blocks**: [List of WI-IDs blocked by this work item]
+- **Files Affected**: [List of files this work item will modify]
+- **File Conflicts**: [List of conflicting work items and files]
+- **Estimated Complexity**: [Level 1-4]
+- **Description**: [Detailed description of work]
+- **Acceptance Criteria**: [List of criteria for completion]
+- **Risk Assessment**: [Risk level and description]
+- **Quality Gates**: [Quality gates this must pass]
+- **Created**: [Timestamp]
+- **Assigned**: [Timestamp]
+- **Completed**: [Timestamp]
+- **Merged**: [Timestamp]
+
+#### Work Tree Assignments
+- **worktree-1**: [WI-ID] - [Status] - [Phase]
+- **worktree-2**: [WI-ID] - [Status] - [Phase]
+- **worktree-3**: [WI-ID] - [Status] - [Phase]
+
+#### Parallel Execution Coordination
+- **Active Work Items**: [Count]
+- **Ready for Assignment**: [List of WI-IDs with no uncompleted dependencies]
+- **Blocked Work Items**: [List of WI-IDs waiting on dependencies]
+- **Conflicts Detected**: [List of file conflicts between work items with resolution strategy]
+- **Dependency Graph**: [Visual or text representation of work item dependencies]
+- **Critical Path**: [List of WI-IDs on the critical path]
+- **Integration Points**: [List of integration points between work items]
 ```
 
 ## 📋 TASK TRACKING ORGANIZATION IN TASKS.MD
@@ -256,6 +291,21 @@ For complex systems, document dependencies in a dedicated section:
 - **Information**: One task requires information produced by another
 - **Architectural**: Tasks have architectural dependencies
 - **Temporal**: Tasks must be completed in a specific time sequence
+
+### Work Item Dependency Management:
+- **File-based Dependencies**: Work items that modify the same files
+- **Functional Dependencies**: Work items where one provides functionality needed by another
+- **Data Dependencies**: Work items that depend on data structures created by others
+- **Integration Dependencies**: Work items that must integrate with each other
+- **Phase Dependencies**: Work items that must complete before next phase can begin
+
+### Conflict Detection and Resolution:
+- **File Conflicts**: Identify work items that modify the same files
+- **Conflict Resolution Strategy**: 
+  - Sequential execution for conflicting work items
+  - Interface contracts to allow parallel development
+  - Feature toggles to enable parallel work
+  - Incremental integration approach
 
 ## 📋 MILESTONE TRACKING
 

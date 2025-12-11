@@ -58,6 +58,30 @@ Load: .cursor/rules/isolation_rules/Level4/phased-implementation.mdc
    - Read complexity level from `memory-bank/tasks.md`
    - Load appropriate workflow rules
 
+2a. **Parallel Execution Check** (Level 2-4)
+   - Check if `memory-bank/tasks.md` contains work items for parallel execution
+   - If work items exist:
+     - **Work Item Detection**: Identify work items ready for execution
+     - **Readiness Assessment**: Find work items with:
+       - Status = "Ready for Assignment" or "Unassigned"
+       - All dependencies completed
+       - No file conflicts with active work items
+     - **Agent Spawning**: For each ready work item (up to Cursor 2.0 limit of 8 agents):
+       - Assign unique work tree identifier
+       - Create agent context with work item details
+       - Spawn agent in isolated work tree
+       - Update tasks.md: Status = "In Progress", Work Tree = [worktree-id]
+     - **Parallel Execution Coordination**:
+       - Monitor work item progress
+       - Handle dependency resolution (unblock waiting work items when dependencies complete)
+       - Detect and report conflicts
+       - Update coordination status in tasks.md
+     - **Completion Handling**:
+       - When agent completes work item: Mark status = "Complete", prepare diff for review
+       - Check if dependent work items can now start
+       - When all work items complete: Coordinate integration, prepare for merge/review
+   - If no work items or parallel execution not supported: Proceed with sequential workflow
+
 3. **Execute Implementation**
 
    **Level 1 (Quick Bug Fix):**
@@ -69,22 +93,20 @@ Load: .cursor/rules/isolation_rules/Level4/phased-implementation.mdc
    - Update `memory-bank/tasks.md`
 
    **Level 2 (Simple Enhancement):**
-   - Review build plan
-   - Examine relevant code areas
-   - Implement changes sequentially
+   - If work items exist: Execute via parallel agents (see step 2a)
+   - If no work items: Review build plan, examine relevant code areas, implement changes sequentially
    - Write tests for each success criterion
    - Run all tests and ensure they pass
    - Update `memory-bank/tasks.md`
 
    **Level 3-4 (Feature/System):**
-   - Review plan and creative decisions
-   - Create directory structure
-   - Build in planned phases
-   - **For each phase:**
-     - Write tests for all phase success criteria
+   - If work items exist: Execute via parallel agents (see step 2a)
+   - If no work items: Review plan and creative decisions, create directory structure, build in planned phases
+   - **For each phase or work item:**
+     - Write tests for all phase/work item success criteria
      - Run tests and ensure they pass
-     - Do NOT proceed to next phase until all tests pass
-   - Integration testing
+     - Do NOT proceed to next phase/work item until all tests pass
+   - Integration testing (after all work items complete if parallel execution)
    - Document implementation
    - Update `memory-bank/tasks.md` and `memory-bank/progress.md`
 

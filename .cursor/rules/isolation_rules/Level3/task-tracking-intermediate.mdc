@@ -29,6 +29,11 @@ graph TD
     Status --> Done["✅ Complete"]
     Status --> Skip["⏭️ Skipped"]
     
+    Track --> WorkItems["Work Item<br>Coordination"]
+    WorkItems --> Assign["Assign Work<br>Tree"]
+    WorkItems --> Monitor["Monitor<br>Progress"]
+    WorkItems --> DepResolve["Dependency<br>Resolution"]
+    
     style Start fill:#4da6ff,stroke:#0066cc,color:white
     style Init fill:#ffa64d,stroke:#cc7a30,color:white
     style Struct fill:#4dbb5f,stroke:#36873f,color:white
@@ -72,6 +77,30 @@ graph TD
 - Phase: [Current Phase]
 - Status: [In Progress/Blocked/Complete]
 - Blockers: [If any]
+
+## Work Items for Parallel Execution
+
+### Work Item: [WI-ID]: [Work Item Name]
+- **Status**: [Unassigned/Assigned/In Progress/Complete/Merged]
+- **Work Tree**: [worktree-id or "unassigned"]
+- **Agent**: [agent-id or "unassigned"]
+- **Dependencies**: [List of WI-IDs that must complete first]
+- **Files Affected**: [List of files this work item will modify]
+- **Description**: [Detailed description of work]
+- **Acceptance Criteria**: [List of criteria for completion]
+- **Created**: [Timestamp]
+- **Assigned**: [Timestamp]
+- **Completed**: [Timestamp]
+
+### Work Tree Assignments
+- **worktree-1**: [WI-ID] - [Status]
+- **worktree-2**: [WI-ID] - [Status]
+
+### Parallel Execution Coordination
+- **Active Work Items**: [Count]
+- **Ready for Assignment**: [List of WI-IDs with no uncompleted dependencies]
+- **Blocked Work Items**: [List of WI-IDs waiting on dependencies]
+- **Conflicts Detected**: [List of file conflicts between work items]
 ```
 
 ## 🔄 PROGRESS TRACKING VISUALIZATION

@@ -69,8 +69,32 @@ Load: .cursor/rules/isolation_rules/Level4/workflow-level4.mdc
    - Flag components requiring design decisions
    - Document which components need creative exploration
 
-5. **Update Memory Bank**
+5. **Parallel Execution Planning** (Level 2-4)
+   - **Task Decomposition**: Break down implementation plan into discrete work items
+     - Analyze implementation steps
+     - Identify discrete units that modify distinct sets of files
+     - Create work items with unique IDs (format: `WI-[task-id]-[sequence]`)
+   - **Dependency Analysis**: Identify dependencies between work items
+     - File-based dependencies (work items modifying same files)
+     - Functional dependencies (one provides functionality for another)
+     - Data dependencies (depend on data structures created by others)
+     - Integration dependencies (must integrate with each other)
+   - **Parallelization Analysis**: Determine which work items can run in parallel
+     - Identify work items with no dependencies
+     - Detect file-level conflicts between work items
+     - Create dependency graph
+   - **Work Tree Assignment**: Assign work items to work trees (or mark as unassigned)
+     - Check dependencies before assignment
+     - Avoid conflicts with active work items
+     - Balance load across available work trees
+   - **Coordination Setup**: Create work item tracking structure in tasks.md
+     - Document work items with status, dependencies, files affected
+     - Create work tree assignment registry
+     - Set up parallel execution coordination section
+
+6. **Update Memory Bank**
    - Update `memory-bank/tasks.md` with complete plan
+   - Add work items structure for parallel execution (if applicable)
    - Mark planning phase as complete
 
 ## Usage
@@ -81,4 +105,5 @@ Type `/plan` to start planning based on the task in `memory-bank/tasks.md`.
 
 - **If creative phases identified:** Use `/creative` command
 - **If no creative phases:** Proceed to `/build` command
+- **If work items created:** `/build` command will automatically spawn parallel agents for ready work items
 

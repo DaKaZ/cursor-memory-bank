@@ -103,15 +103,23 @@ graph TD
 **Steps:**
 1. Define clear requirements
 2. Break down into subtasks
-3. Update tasks.md with subtasks
-4. Create time estimates
-5. Document dependencies and constraints
+3. **Work Item Decomposition** (if task has multiple independent subtasks):
+   - Analyze subtasks for parallelization potential
+   - Identify subtasks that modify distinct sets of files
+   - Create work items for parallelizable subtasks (format: `WI-[task-id]-[sequence]`)
+   - Document simple dependencies between work items
+   - Add work items structure to tasks.md
+4. Update tasks.md with subtasks (and work items if created)
+5. Create time estimates
+6. Document dependencies and constraints
 
 **Milestone Checkpoint:**
 ```
 ✓ PLANNING CHECKPOINT
 - Requirements clearly defined? [YES/NO]
 - Task broken down into subtasks? [YES/NO]
+- Work items created (if applicable)? [YES/NO]
+- Dependencies between work items documented? [YES/NO]
 - tasks.md updated with subtasks? [YES/NO]
 - Time estimates created? [YES/NO]
 - Dependencies documented? [YES/NO]
