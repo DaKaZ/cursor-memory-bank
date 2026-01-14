@@ -9,6 +9,7 @@ This command initializes the Memory Bank system, performs platform detection, de
 - `memory-bank/activeContext.md` - Current focus
 - `memory-bank/progress.md` - Implementation status
 - `memory-bank/projectbrief.md` - Project foundation
+- `memory-bank/roadmap.md` - Product roadmap (optional, for linking tasks to epics/features)
 
 ## Progressive Rule Loading
 
@@ -53,8 +54,15 @@ After determining complexity level, load:
    - **Level 1:** Continue in VAN mode, proceed to implementation
    - **Level 2-4:** Transition to `/plan` command
 
-5. **Update Memory Bank**
+5. **Optional Roadmap Linking**
+   - Check if `memory-bank/roadmap.md` exists
+   - If exists, optionally prompt to link task to epic/feature
+   - If user chooses to link, display available epics/features
+   - Store roadmap link in `memory-bank/tasks.md` as `Roadmap Link: EPIC-[ID]`
+
+6. **Update Memory Bank**
    - Update `memory-bank/tasks.md` with complexity determination
+   - Update `memory-bank/tasks.md` with roadmap link (if provided)
    - Update `memory-bank/activeContext.md` with current focus
 
 ## Usage

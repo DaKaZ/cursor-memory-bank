@@ -8,6 +8,7 @@ Reads from:
 - `memory-bank/tasks.md` - Task requirements and complexity level
 - `memory-bank/activeContext.md` - Current project context
 - `memory-bank/projectbrief.md` - Project foundation (if exists)
+- `memory-bank/roadmap.md` - Product roadmap (if task is linked to epic/feature)
 
 Updates:
 - `memory-bank/tasks.md` - Adds detailed implementation plan
@@ -53,12 +54,15 @@ Load: .cursor/rules/isolation_rules/Level4/workflow-level4.mdc
 1. **Read Task Context**
    - Read `memory-bank/tasks.md` to get complexity level
    - Read `memory-bank/activeContext.md` for current context
+   - Check if task has roadmap link in `memory-bank/tasks.md`
+   - If roadmap link exists, read `memory-bank/roadmap.md` for epic/feature context
    - Review codebase structure
 
 2. **Create Implementation Plan**
    - **Level 2:** Document planned changes, files to modify, implementation steps
    - **Level 3:** Create comprehensive plan with components, dependencies, challenges
    - **Level 4:** Create phased implementation plan with architectural considerations
+   - **If roadmap linked:** Include epic/feature context in plan, document how task contributes to epic/feature goals
 
 3. **Technology Validation** (Level 2-4)
    - Document technology stack selection

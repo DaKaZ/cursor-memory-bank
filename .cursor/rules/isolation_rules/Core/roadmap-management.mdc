@@ -1,0 +1,112 @@
+---
+description: Roadmap management rules for tracking product epics/features across multiple tasks
+globs: roadmap-management.mdc
+alwaysApply: false
+---
+
+# ROADMAP MANAGEMENT
+
+> **TL;DR:** Defines structure, status values, and patterns for managing product roadmap with epics/features that span multiple tasks.
+
+## ROADMAP FILE STRUCTURE
+
+The roadmap file (`memory-bank/roadmap.md`) tracks high-level product goals organized as epics/features.
+
+### Epic/Feature Structure
+
+Each epic/feature follows this structure:
+
+```markdown
+### EPIC-[ID]: [Epic Name]
+- **Status**: Planned | In Progress | Blocked | Completed
+- **Priority**: High | Medium | Low
+- **Target Date**: YYYY-MM-DD (optional)
+- **Progress**: X% (Y tasks completed / Z total tasks)
+- **Description**: [Epic description]
+- **Linked Tasks**: 
+  - TASK-[ID]: [Task Name] (Status)
+  - TASK-[ID]: [Task Name] (Status)
+- **Dependencies**: [Other epic IDs or "None"]
+- **Notes**: [Additional context]
+```
+
+### Status Values
+
+- **Planned**: Epic/feature is defined but no tasks have started
+- **In Progress**: At least one linked task is in progress
+- **Blocked**: Epic/feature is blocked by dependencies or external factors
+- **Completed**: All linked tasks are completed
+
+### Priority Values
+
+- **High**: Critical for product goals, should be prioritized
+- **Medium**: Important but not critical
+- **Low**: Nice to have, lower priority
+
+## TASK LINKING
+
+Tasks can optionally link to roadmap items:
+
+- **Linking Format**: In `tasks.md`, add `Roadmap Link: EPIC-[ID]` field
+- **Optional**: Tasks do not require roadmap links
+- **Multiple Tasks**: Multiple tasks can link to the same epic/feature
+- **Task Status**: Task status (from tasks.md) is reflected in roadmap linked tasks list
+
+## PROGRESS CALCULATION
+
+Progress metrics are calculated based on linked tasks:
+
+- **Total Tasks**: Count of all tasks linked to epic/feature
+- **Completed Tasks**: Count of tasks with status "COMPLETE" or "ARCHIVED"
+- **Progress Percentage**: (Completed Tasks / Total Tasks) × 100
+- **Status Update**: Epic/feature status automatically updates to "Completed" when all linked tasks are complete
+
+## DEPENDENCIES
+
+Epics/features can have dependencies on other epics/features:
+
+- **Format**: List of epic IDs (e.g., "EPIC-001, EPIC-002")
+- **None**: Use "None" if no dependencies
+- **Blocking**: If a dependency is not completed, the epic/feature may be marked as "Blocked"
+
+## ROADMAP COMMAND OPERATIONS
+
+The `/roadmap` command supports:
+
+1. **Create Epic/Feature**: Add new epic/feature to roadmap
+2. **Update Status**: Change epic/feature status
+3. **Link Task**: Manually link a task to an epic/feature
+4. **Unlink Task**: Remove task link from epic/feature
+5. **View Roadmap**: Display roadmap with current progress
+6. **Update Progress**: Recalculate progress metrics for all epics/features
+
+## INTEGRATION POINTS
+
+### VAN Command
+- Optionally prompts to link new task to roadmap item
+- Checks if `roadmap.md` exists before prompting
+- Stores roadmap link in `tasks.md`
+
+### PLAN Command
+- Reads roadmap context if task is linked to epic/feature
+- Includes epic/feature description in planning considerations
+- Documents how task contributes to epic/feature goals
+
+### ARCHIVE Command
+- Checks if completed task is linked to roadmap item
+- Updates epic/feature progress metrics
+- Updates epic/feature status if all tasks complete
+- Documents completion in roadmap.md
+
+## FILE LOCATION
+
+**CRITICAL:** Roadmap file must be located at `memory-bank/roadmap.md` (created on first use).
+
+## TOKEN OPTIMIZATION
+
+- Roadmap rules loaded only when `/roadmap` command used
+- `roadmap.md` read only when:
+  - `/roadmap` command invoked
+  - Task is linked to roadmap item (VAN, PLAN, ARCHIVE)
+- Progress calculations done incrementally, not on every read
+- Follow existing progressive rule loading patterns

@@ -1,0 +1,165 @@
+---
+description: Visual process map for ROADMAP mode (Product Roadmap Management)
+globs: roadmap-mode-map.mdc
+alwaysApply: false
+---
+
+# ROADMAP MODE: PRODUCT ROADMAP MANAGEMENT PROCESS MAP
+
+> **TL;DR:** This visual map guides the ROADMAP mode process, focusing on managing product epics/features, tracking progress across multiple tasks, and maintaining roadmap structure.
+
+## 🧭 ROADMAP MODE PROCESS FLOW
+
+```mermaid
+graph TD
+    Start["START ROADMAP MODE"] --> CheckFile["Check if<br>roadmap.md exists"]
+    
+    CheckFile -->|"Does not exist"| CreateFile["Create roadmap.md<br>with template structure"]
+    CheckFile -->|"Exists"| ReadRoadmap["Read roadmap.md"]
+    
+    CreateFile --> ReadRoadmap
+    
+    ReadRoadmap --> DetermineOp{"Determine<br>Operation"}
+    
+    DetermineOp -->|"Create Epic"| CreateEpic["CREATE EPIC/FEATURE"]
+    DetermineOp -->|"Update Status"| UpdateStatus["UPDATE STATUS"]
+    DetermineOp -->|"Link Task"| LinkTask["LINK TASK"]
+    DetermineOp -->|"Unlink Task"| UnlinkTask["UNLINK TASK"]
+    DetermineOp -->|"View Roadmap"| ViewRoadmap["VIEW ROADMAP"]
+    DetermineOp -->|"Update Progress"| UpdateProgress["UPDATE PROGRESS"]
+    
+    CreateEpic --> GetDetails["Get Epic Details:<br>Name, Description, Priority,<br>Target Date, Dependencies"]
+    GetDetails --> GenerateID["Generate Epic ID<br>EPIC-[sequential]"]
+    GenerateID --> CreateStructure["Create Epic Structure<br>with Status: Planned"]
+    CreateStructure --> SaveRoadmap["Save to roadmap.md"]
+    
+    UpdateStatus --> SelectEpic["Select Epic/Feature"]
+    SelectEpic --> GetNewStatus["Get New Status:<br>Planned | In Progress | Blocked | Completed"]
+    GetNewStatus --> ValidateStatus["Validate Status<br>Transition"]
+    ValidateStatus --> UpdateEpicStatus["Update Epic Status"]
+    UpdateEpicStatus --> SaveRoadmap
+    
+    LinkTask --> SelectEpic2["Select Epic/Feature"]
+    SelectEpic2 --> GetTaskID["Get Task ID<br>from tasks.md"]
+    GetTaskID --> CheckTaskExists["Verify Task Exists"]
+    CheckTaskExists --> AddTaskLink["Add Task to<br>Epic Linked Tasks"]
+    AddTaskLink --> UpdateTaskFile["Update tasks.md<br>with Roadmap Link"]
+    UpdateTaskFile --> RecalculateProgress["Recalculate Progress"]
+    RecalculateProgress --> SaveRoadmap
+    
+    UnlinkTask --> SelectEpic3["Select Epic/Feature"]
+    SelectEpic3 --> SelectTask["Select Task to Unlink"]
+    SelectTask --> RemoveTaskLink["Remove Task from<br>Epic Linked Tasks"]
+    RemoveTaskLink --> UpdateTaskFile2["Update tasks.md<br>remove Roadmap Link"]
+    UpdateTaskFile2 --> RecalculateProgress2["Recalculate Progress"]
+    RecalculateProgress2 --> SaveRoadmap
+    
+    ViewRoadmap --> DisplayEpics["Display All Epics/Features<br>with Status and Progress"]
+    DisplayEpics --> FormatOutput["Format Roadmap View:<br>- Status Summary<br>- Progress Metrics<br>- Linked Tasks"]
+    
+    UpdateProgress --> ReadAllTasks["Read All Linked Tasks<br>from tasks.md"]
+    ReadAllTasks --> CalculateMetrics["Calculate Progress:<br>- Completed Tasks<br>- Total Tasks<br>- Progress %"]
+    CalculateMetrics --> UpdateEpicProgress["Update Epic Progress<br>Metrics"]
+    UpdateEpicProgress --> CheckCompletion["Check if All Tasks<br>Complete"]
+    CheckCompletion -->|"All Complete"| AutoComplete["Auto-Update Status<br>to Completed"]
+    CheckCompletion -->|"Not Complete"| SaveRoadmap
+    AutoComplete --> SaveRoadmap
+    
+    SaveRoadmap --> Complete["ROADMAP OPERATION<br>COMPLETE"]
+    FormatOutput --> Complete
+    
+    style Start fill:#4da6ff,stroke:#0066cc,color:white
+    style CreateEpic fill:#4dbb5f,stroke:#36873f,color:white
+    style UpdateStatus fill:#ffa64d,stroke:#cc7a30,color:white
+    style LinkTask fill:#d94dbb,stroke:#a3378a,color:white
+    style ViewRoadmap fill:#4dbbbb,stroke:#368787,color:white
+    style UpdateProgress fill:#d971ff,stroke:#a33bc2,color:white
+    style Complete fill:#b0bec5,stroke:#90a4ae,color:white
+```
+
+## 📋 ROADMAP FILE STRUCTURE
+
+```mermaid
+graph TD
+    subgraph "roadmap.md Structure"
+        Header["# Product Roadmap"]
+        EpicsSection["## Epics/Features"]
+        Epic1["### EPIC-001: [Name]<br>Status, Priority, Progress<br>Linked Tasks, Dependencies"]
+        Epic2["### EPIC-002: [Name]<br>Status, Priority, Progress<br>Linked Tasks, Dependencies"]
+    end
+    
+    Header --> EpicsSection
+    EpicsSection --> Epic1
+    EpicsSection --> Epic2
+    
+    style Header fill:#4da6ff,stroke:#0066cc,color:white
+    style EpicsSection fill:#ffa64d,stroke:#cc7a30,color:white
+```
+
+## 🔄 PROGRESS CALCULATION FLOW
+
+```mermaid
+graph TD
+    StartCalc["Start Progress Calculation"] --> ReadEpic["Read Epic from<br>roadmap.md"]
+    ReadEpic --> GetLinkedTasks["Get Linked Task IDs"]
+    GetLinkedTasks --> ReadTasksFile["Read tasks.md<br>for Task Statuses"]
+    ReadTasksFile --> CountCompleted["Count Tasks with<br>Status: COMPLETE"]
+    CountCompleted --> CountTotal["Count Total<br>Linked Tasks"]
+    CountTotal --> CalculatePercent["Calculate:<br>Progress % = Completed / Total"]
+    CalculatePercent --> UpdateEpic["Update Epic Progress<br>in roadmap.md"]
+    UpdateEpic --> CheckAllComplete{"All Tasks<br>Complete?"}
+    CheckAllComplete -->|"Yes"| SetCompleted["Set Status to<br>Completed"]
+    CheckAllComplete -->|"No"| Done["Calculation Complete"]
+    SetCompleted --> Done
+    
+    style StartCalc fill:#4da6ff,stroke:#0066cc,color:white
+    style CalculatePercent fill:#4dbb5f,stroke:#36873f,color:white
+    style SetCompleted fill:#d94dbb,stroke:#a3378a,color:white
+```
+
+## ✅ ROADMAP OPERATION VERIFICATION
+
+```mermaid
+graph TD
+    subgraph "Verification Checklist"
+        V1["Epic ID Format<br>Valid?"]
+        V2["Status Value<br>Valid?"]
+        V3["Priority Value<br>Valid?"]
+        V4["Task ID Exists<br>in tasks.md?"]
+        V5["Dependencies Reference<br>Valid Epic IDs?"]
+        V6["Progress Calculation<br>Accurate?"]
+    end
+    
+    V1 --> V2 --> V3 --> V4 --> V5 --> V6
+    
+    style V1 fill:#4dbb5f,stroke:#36873f,color:white
+    style V2 fill:#ffa64d,stroke:#cc7a30,color:white
+    style V3 fill:#d94dbb,stroke:#a3378a,color:white
+    style V4 fill:#4dbbbb,stroke:#368787,color:white
+    style V5 fill:#d971ff,stroke:#a33bc2,color:white
+    style V6 fill:#ff71c2,stroke:#c23b8a,color:white
+```
+
+## 🔗 INTEGRATION WITH OTHER COMMANDS
+
+```mermaid
+graph LR
+    subgraph "Command Integration"
+        VAN["/van<br>Optional Link"]
+        PLAN["/plan<br>Read Context"]
+        ARCHIVE["/archive<br>Update Progress"]
+    end
+    
+    subgraph "Roadmap File"
+        Roadmap["roadmap.md"]
+    end
+    
+    VAN -->|"Link Task"| Roadmap
+    PLAN -->|"Read Epic Context"| Roadmap
+    ARCHIVE -->|"Update Metrics"| Roadmap
+    
+    style VAN fill:#4da6ff,stroke:#0066cc,color:white
+    style PLAN fill:#ffa64d,stroke:#cc7a30,color:white
+    style ARCHIVE fill:#d94dbb,stroke:#a3378a,color:white
+    style Roadmap fill:#4dbb5f,stroke:#36873f,color:white
+```

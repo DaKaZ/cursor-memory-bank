@@ -1,4 +1,4 @@
-# Memory Bank System v0.8
+# Memory Bank System v0.9
 
 A token-optimized, hierarchical task management system that uses Cursor 2.0 commands for efficient development workflows.
 
@@ -16,8 +16,10 @@ graph TD
     Commands --> BUILD["/build: Implementation"]
     Commands --> REFLECT["/reflect: Review"]
     Commands --> ARCHIVE["/archive: Documentation"]
+    Commands --> ROADMAP["/roadmap: Roadmap"]
     
     Memory --> Tasks["tasks.md"]
+    Memory --> Roadmap["roadmap.md"]
     Memory --> Active["activeContext.md"]
     Memory --> Progress["progress.md"]
     Memory --> Creative["creative/"]
@@ -39,7 +41,7 @@ Memory Bank is a structured development workflow system that uses Cursor 2.0 com
 
 ### How It Works
 
-Version 0.8 moves from cursor custom modes to cursor commands.  Memory Bank operates through **six specialized commands** that work together as an integrated workflow:
+Version 0.9 builds upon v0.8's command-based architecture. Memory Bank operates through **seven specialized commands** that work together as an integrated workflow:
 
 1. **`/van`** - Initializes projects, detects platform, determines task complexity
 2. **`/plan`** - Creates detailed implementation plans based on complexity level
@@ -47,6 +49,7 @@ Version 0.8 moves from cursor custom modes to cursor commands.  Memory Bank oper
 4. **`/build`** - Systematically implements planned changes
 5. **`/reflect`** - Reviews completed work and documents lessons learned
 6. **`/archive`** - Creates comprehensive documentation and updates Memory Bank
+7. **`/roadmap`** - Manages product roadmap, tracking epics/features across multiple tasks
 
 Each command reads from and updates a shared **Memory Bank** directory (`memory-bank/`), maintaining persistent context across the entire workflow.
 
@@ -68,6 +71,7 @@ Memory Bank transforms development into a structured, phase-based process:
 
 - **Graph-Based Command Integration**: Commands are interconnected nodes in a development workflow
 - **Workflow Progression**: Commands transition from one to another in a logical sequence (`/van` → `/plan` → `/creative` → `/build` → `/reflect` → `/archive`)
+- **Roadmap Integration**: Product roadmap tracks high-level goals (epics/features) across multiple tasks
 - **Shared Memory**: Persistent state maintained across command transitions via Memory Bank files
 - **Adaptive Behavior**: Each command adjusts its recommendations based on project complexity level
 - **Progressive Rule Loading**: Commands load only necessary rules, reducing context window usage
@@ -76,7 +80,7 @@ This approach transforms development from ad-hoc coding into a coordinated syste
 
 ### CREATIVE Command and Claude's "Think" Tool
 
-The `/creative` command is conceptually based on Anthropic's Claude "Think" tool methodology, as described in their [engineering blog](https://www.anthropic.com/engineering/claude-think-tool). Version 0.8 implements an optimized version with:
+The `/creative` command is conceptually based on Anthropic's Claude "Think" tool methodology, as described in their [engineering blog](https://www.anthropic.com/engineering/claude-think-tool). Version 0.9 implements an optimized version with:
 
 - Progressive documentation with tabular option comparison
 - "Detail-on-demand" approach that preserves token efficiency
@@ -90,6 +94,7 @@ For a detailed explanation of how Memory Bank implements these principles, see t
 - **Cursor 2.0 Commands**: Native integration with Cursor's commands feature - no setup required
 - **Hierarchical Rule Loading**: Load only the essential rules with specialized lazy-loading
 - **Progressive Documentation**: Concise templates that scale with task complexity
+- **Product Roadmap Tracking**: Track epics/features across multiple tasks with progress metrics
 - **Unified Context Transfer**: Efficient context preservation between commands via Memory Bank
 - **Command-Specific Visual Maps**: Clear visual representations for each development phase
 - **Level-Specific Workflows**: Adapted processes based on complexity (Levels 1-4)
@@ -131,6 +136,7 @@ After extracting it from the ZIP file:
    - `/build` - Code implementation
    - `/reflect` - Task reflection
    - `/archive` - Task archiving
+   - `/roadmap` - Product roadmap management
 
 2. **Start with `/van`** to initialize your project:
    ```
@@ -186,6 +192,7 @@ See [`.cursor/commands/README.md`](.cursor/commands/README.md) for detailed comm
 - Verifies or creates Memory Bank structure
 - Analyzes task requirements
 - Determines complexity level (1-4)
+- Optionally links task to roadmap epic/feature (if roadmap exists)
 - Updates `memory-bank/tasks.md` with initial task information
 
 **Next steps:**
@@ -202,10 +209,12 @@ See [`.cursor/commands/README.md`](.cursor/commands/README.md) for detailed comm
 
 **What it does:**
 - Reads task requirements from `memory-bank/tasks.md`
+- Reads roadmap context if task is linked to epic/feature
 - Reviews codebase structure
 - Creates implementation plan (complexity-appropriate)
 - Performs technology validation (Level 2-4)
 - Identifies components requiring creative phases
+- Documents how task contributes to epic/feature goals (if linked)
 - Updates `memory-bank/tasks.md` with complete plan
 
 **Next steps:**
@@ -267,6 +276,7 @@ See [`.cursor/commands/README.md`](.cursor/commands/README.md) for detailed comm
 - Documents process and technical improvements
 - Creates `memory-bank/reflection/reflection-[task_id].md`
 - Updates `memory-bank/tasks.md` with reflection status
+- **New:** Automatically analyzes agent interaction history (if `.specstory/history/` exists), creating interaction summaries, vibe-coaching reports, and improvement suggestions (requires the specstory plugin)
 
 **Next steps:**
 - After reflection complete → `/archive`
@@ -285,34 +295,112 @@ See [`.cursor/commands/README.md`](.cursor/commands/README.md) for detailed comm
 - Archives creative phase documents (Level 3-4)
 - Updates `memory-bank/tasks.md` marking task COMPLETE
 - Updates `memory-bank/progress.md` with archive reference
+- Updates `memory-bank/roadmap.md` progress if task is linked to epic/feature
 - Resets `memory-bank/activeContext.md` for next task
 - Creates `memory-bank/archive/archive-[task_id].md`
 
 **Next steps:**
 - After archiving complete → `/van` (for next task)
 
-### Example Workflow
+#### `/roadmap` - Product Roadmap Management
+**Purpose:** Manage product roadmap, tracking epics/features across multiple tasks.
 
-Here's a complete example workflow for a Level 3 feature:
+**Usage:**
+```
+/roadmap [operation] [details]
+```
+
+**Operations:**
+- `Create epic [name]` - Create new epic/feature
+- `Update status EPIC-[ID] to [status]` - Update epic status
+- `Link task TASK-[ID] to EPIC-[ID]` - Link task to epic
+- `Unlink task TASK-[ID] from EPIC-[ID]` - Unlink task from epic
+- `View roadmap` - Display roadmap with progress
+- `Update progress` - Recalculate progress for all epics
+
+**What it does:**
+- Creates and manages epics/features in `memory-bank/roadmap.md`
+- Tracks progress metrics (completed tasks, total tasks, percentage)
+- Links tasks to epics/features
+- Updates epic/feature status automatically when all tasks complete
+- Provides roadmap view with current status and progress
+
+**Next steps:**
+- Use `/van` to start new tasks (optionally link to roadmap)
+- Use `/plan` to plan tasks with roadmap context
+- Use `/archive` to update roadmap progress on task completion
+
+### Example Workflows
+
+#### First Run: Setting Up Roadmap and Initial Task
+
+Here's a complete example workflow for setting up a product roadmap and implementing the first feature:
 
 ```bash
-# Step 1: Initialize
+# Step 1: Create product roadmap epic
+/roadmap Create epic for user authentication system
+
+# Step 2: Initialize first task (linked to roadmap)
 /van Add user authentication with OAuth2 support
+# When prompted, link to EPIC-001 (the epic created in Step 1)
 
-# Step 2: Plan (VAN routes to PLAN for Level 3)
+# Step 3: Plan (VAN routes to PLAN for Level 3)
 /plan
+# Plan includes roadmap context, documenting how this task contributes to the epic
 
-# Step 3: Explore design options for OAuth integration
+# Step 4: Explore design options for OAuth integration
 /creative
 
-# Step 4: Implement the feature
+# Step 5: Implement the feature
 /build
 
-# Step 5: Reflect on the implementation
+# Step 6: Reflect on the implementation
 /reflect
 
-# Step 6: Archive the completed task
+# Step 7: Archive the completed task
 /archive
+# Automatically updates roadmap progress for EPIC-001
+
+# Step 8: View roadmap progress
+/roadmap View roadmap
+# See updated progress: 1 task completed, epic status updated
+```
+
+#### Ongoing Development: Iterating with Existing Roadmap
+
+Here's an example of continuing development with an existing roadmap:
+
+```bash
+# Step 1: View current roadmap status
+/roadmap View roadmap
+# Review epics, progress, and identify next task
+
+# Step 2: Initialize next task (linked to existing epic)
+/van Add password reset functionality
+# Link to EPIC-001 when prompted (continuing the authentication epic)
+
+# Step 3: Plan with roadmap context
+/plan
+# Plan references epic goals and previous authentication work
+
+# Step 4: Implement (Level 2 task, no creative phase needed)
+/build
+
+# Step 5: Reflect
+/reflect
+
+# Step 6: Archive
+/archive
+# Updates EPIC-001 progress: now 2 tasks completed
+
+# Step 7: Check roadmap progress
+/roadmap View roadmap
+# See EPIC-001 progress updated to reflect both completed tasks
+
+# Step 8: Start next epic
+/roadmap Create epic for user profile management
+/van Add user profile editing
+# Link to new EPIC-002 when prompted
 ```
 
 ## Memory Bank Structure
@@ -323,6 +411,7 @@ All Memory Bank files are stored in the `memory-bank/` directory:
 graph LR
     subgraph "Memory Bank Directory"
         Tasks["tasks.md<br>Source of Truth"]
+        Roadmap["roadmap.md<br>Product Roadmap"]
         Active["activeContext.md<br>Current Focus"]
         Progress["progress.md<br>Implementation Status"]
         Brief["projectbrief.md<br>Project Foundation"]
@@ -332,6 +421,7 @@ graph LR
     end
     
     style Tasks fill:#f9d77e,stroke:#d9b95c,stroke-width:3px,color:black
+    style Roadmap fill:#4da6ff,stroke:#0066cc,color:white
     style Active fill:#a8d5ff,stroke:#88b5e0,color:black
     style Progress fill:#c5e8b7,stroke:#a5c897,color:black
     style Brief fill:#d9b3ff,stroke:#b366ff,color:black
@@ -343,6 +433,7 @@ graph LR
 ### Core Files
 
 - **`tasks.md`**: Central source of truth for task tracking, checklists, and component lists
+- **`roadmap.md`**: Product roadmap tracking epics/features across multiple tasks with progress metrics
 - **`activeContext.md`**: Maintains focus of current development phase
 - **`progress.md`**: Tracks implementation status and observations
 - **`projectbrief.md`**: Project foundation and context
@@ -440,7 +531,7 @@ If you're using an older version of Cursor that doesn't support commands, see th
 
 ## Version Information
 
-This is version v0.8 of the Memory Bank system. It introduces significant token optimization improvements over v0.7-beta while maintaining all functionality. See the [Release Notes](RELEASE_NOTES.md) for detailed information about the changes.
+This is version v0.9 of the Memory Bank system. It builds upon v0.8's command-based architecture with enhanced reflection capabilities. See the [Release Notes](RELEASE_NOTES.md) for detailed information about the changes.
 
 ### Ongoing Development
 
@@ -470,4 +561,4 @@ As mentioned in the personal note above, Memory Bank is a personal project. Howe
 
 ---
 
-*Note: This README is for v0.8 and subject to change as the system evolves.*
+*Note: This README is for v0.9 and subject to change as the system evolves.*

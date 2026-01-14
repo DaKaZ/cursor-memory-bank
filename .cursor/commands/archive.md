@@ -9,6 +9,7 @@ Reads from:
 - `memory-bank/reflection/reflection-[task_id].md` - Reflection document
 - `memory-bank/progress.md` - Implementation status
 - `memory-bank/creative/creative-*.md` - Creative phase documents (Level 3-4)
+- `memory-bank/roadmap.md` - Product roadmap (if task is linked to epic/feature)
 
 Creates:
 - `memory-bank/archive/archive-[task_id].md` - Archive document
@@ -17,6 +18,7 @@ Updates:
 - `memory-bank/tasks.md` - Mark task as COMPLETE
 - `memory-bank/progress.md` - Add archive reference
 - `memory-bank/activeContext.md` - Reset for next task
+- `memory-bank/roadmap.md` - Update epic/feature progress (if task is linked)
 
 ## Progressive Rule Loading
 
@@ -107,7 +109,19 @@ Load: .cursor/rules/isolation_rules/Level4/archive-comprehensive.mdc
    Links to related documents (reflection, creative phases, etc.)
    ```
 
-4. **Update Memory Bank**
+4. **Update Roadmap Progress** (if task is linked to roadmap)
+   - Check if task has roadmap link in `memory-bank/tasks.md`
+   - If linked, read `memory-bank/roadmap.md`
+   - Update epic/feature progress metrics:
+     - Recalculate completed tasks count
+     - Recalculate total tasks count
+     - Update progress percentage
+   - Update task status in epic's linked tasks list
+   - Check if all tasks for epic/feature are complete
+   - If all complete, update epic/feature status to "Completed"
+   - Save updated roadmap to `memory-bank/roadmap.md`
+
+5. **Update Memory Bank**
    - Create `memory-bank/archive/archive-[task_id].md`
    - Mark task as COMPLETE in `memory-bank/tasks.md`
    - Update `memory-bank/progress.md` with archive reference

@@ -2,6 +2,67 @@
 
 > **Personal Note**: Memory Bank is my personal hobby project that I develop for my own use in coding projects. As this is a personal project, I don't maintain an issues tracker or actively collect feedback. However, if you're using these rules and encounter issues, one of the great advantages is that you can ask the Cursor AI directly to modify or update the rules to better suit your specific workflow. The system is designed to be adaptable by the AI, allowing you to customize it for your own needs without requiring external support.
 
+## Version 0.9 - Enhanced Reflection with Interaction Analysis
+
+> Building upon v0.8's command-based architecture, this release introduces advanced reflection capabilities with automatic interaction analysis and workflow improvement suggestions.
+
+### 🌟 Major Features
+
+#### Enhanced `/reflect` Command _(New)_
+- **Automatic Interaction Analysis**: Analyzes agent interaction history from `.specstory/history/` (if available)
+- **Interaction Summary**: Creates comprehensive summaries of how the agent was used during task development
+- **Vibe-Coaching Reports**: Provides actionable insights on effective agent usage patterns and workflow optimization
+- **Improvement Suggestions**: Identifies recurring patterns and suggests system improvements with high-threshold criteria
+- **Evidence-Based Recommendations**: All suggestions backed by actual interaction data and patterns
+
+#### Interaction Analysis Features _(New)_
+- Categorizes interaction types (feature development, bug fixes, brainstorming, refactoring, documentation)
+- Identifies primary use cases and workflow patterns
+- Analyzes interaction quality and effectiveness
+- Provides coaching on command usage, prompt structure, and Memory Bank leverage
+- Suggests workflow optimizations to reduce back-and-forth cycles
+
+### 🔄 Process Improvements
+
+#### Reflection Workflow Enhancements
+- Automatic detection and analysis of interaction logs
+- Structured document generation (interaction summary, vibe-coaching report, improvement suggestions)
+- High-threshold criteria for improvement suggestions (prevents drift, focuses on significant impact)
+- Human review and confirmation process for suggested improvements
+
+### 📚 Documentation Enhancements
+- Updated `/reflect` command documentation with new features
+- Added interaction analysis workflow details
+- Enhanced reflection document templates
+
+### 🛠 Technical Improvements
+- Integration with `.specstory/history/` directory for interaction log analysis
+- Pattern recognition and categorization algorithms
+- Evidence-based improvement suggestion system
+- Structured document generation for reflection artifacts
+
+### 📋 Known Issues
+- None reported in current release
+
+### 🔜 Upcoming Features
+- Further workflow optimizations based on interaction analysis
+- Enhanced pattern recognition capabilities
+- Additional reflection insights and metrics
+
+### 📝 Notes
+- This release builds upon v0.8's command-based architecture
+- New reflection features are automatically enabled when `.specstory/history/` exists
+- No manual migration required
+- Backward compatible with v0.8 workflows
+
+### 🔧 Requirements
+- Requires Cursor version 2.0 or higher (commands feature)
+- Compatible with Claude 4 Sonnet (recommended) and newer models
+- Compatible with all existing Memory Bank v0.8 installations
+- Interaction analysis requires `.specstory/history/` directory (optional)
+
+---
+
 ## Version 0.8 - Enhanced Commands and Workflow
 
 > Building upon the token-optimized workflows established in v0.7-beta, this release focuses on improved command integration and workflow enhancements.
