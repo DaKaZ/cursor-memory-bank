@@ -24,7 +24,7 @@ Load: .cursor/rules/isolation_rules/Core/command-execution.mdc
 
 ### Step 2: Load BUILD Mode Map
 ```
-Load: .cursor/rules/isolation_rules/visual-maps/implement-mode-map.mdc
+Load: .cursor/rules/isolation_rules/visual-maps/build-mode-map.mdc
 ```
 
 ### Step 3: Load Complexity-Specific Implementation Rules
